@@ -6,12 +6,10 @@
       drag
       :action="bookUploadPath"
       :multiple="false"
+      :limit="1"
       :auto-upload="true"
       :on-success="uploadBook"
-      :on-error="uploadBookError"
       :on-remove="removeBoook"
-      :before-upload="uploadBookBefore"
-      :before-remove="removeBoookBefore"
       :on-exceed="exceedBook"
       :file-list="fileList"
     >
@@ -19,50 +17,57 @@
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       <div slot="tip" class="el-upload__tip">只能上传 epub 文件</div>
     </el-upload>
-    <img :src="imgUrl" alt="">
   </div>
 </template>
 
 <script>
-import { getToken } from '@/utils/auth'
+import { getToken } from "@/utils/auth";
 export default {
-  name: 'BookUpload',
+  name: "BookUpload",
   data() {
     return {
-      bookUploadPath: 'http://localhost:5000/book/upload',
+      bookUploadPath: "http://localhost:5000/book/upload",
       fileList: [],
-      imgUrl: ''
-    }
+      imgUrl: "",
+    };
   },
   computed: {
     headers() {
-      return { Authorization: `Bearer ${getToken()}` }
-    }
+      return { Authorization: `Bearer ${getToken()}` };
+    },
   },
   methods: {
-    removeBoook(file) {
-      console.log('removeBoook', file)
+    removeBoook() {
+      this.fileList = [];
+      this.$emit('removeBoook');
+      this.$message({
+          type: "success",
+          message: "电子书移除成功",
+      });
     },
-    removeBoookBefore(file) {
-      console.log('removeBoookBefore', file)
+    exceedBook() {
+      this.$message({
+          type: "warning",
+          message: "上传数量超出限制，一次只能上传一本电子书",
+      });
     },
-    exceedBook(file, fileList) {
-      console.log('exceedBook', file)
-      this.fileList = fileList
+    uploadBook(response, file) {
+      const { code, data } = response;
+      if (code !== 0) {
+        this.$message({
+          type: "error",
+          message: "上传电子书失败",
+        });
+      } else {
+        this.$emit("uploadBookSuccess", data);
+        this.$message({
+          type: "success",
+          message: "上传电子书成功",
+        });
+      }
     },
-    uploadBookBefore(file) {
-      console.log('exceedBook', file)
-    },
-    uploadBook(file) {
-      console.log('uploadBook', file)
-      const { data } = file
-      this.imgUrl = data.url
-    },
-    uploadBookError(file) {
-      console.log('exceedBook', file)
-    }
-  }
-}
+  },
+};
 </script>
 
 <style lang='scss'>

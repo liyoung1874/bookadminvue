@@ -20,8 +20,6 @@ import Layout from '@/layout'
     roles: ['admin','editor']    control the page roles (you can set multiple roles)
     title: 'title'               the name show in sidebar and breadcrumb (recommend set)
     icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
-    noCache: true                if set true, the page will no be cached(default is false)
-    affix: true                  if set true, the tag will affix in the tags-view
     breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
@@ -34,71 +32,52 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index')
-      }
-    ]
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-  {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/auth-redirect'),
-    hidden: true
-  },
+
   {
     path: '/404',
-    component: () => import('@/views/error-page/404'),
+    component: () => import('@/views/404'),
     hidden: true
   },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true
-  },
+
   {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
-      }
-    ]
-  }
-]
+    children: [{
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: 'Dashboard', icon: 'dashboard' }
+    }]
+  },
 
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
-export const asyncRoutes = [
-  { path: '/book',
+  {
+    path:'/book',
     component: Layout,
     redirect: '/book/list',
-    meta: { title: '图书管理', icon: 'edit', roles: ['admin'] },
-    children: [{
-      path: '/book/list',
-      component: () => import('@/views/book/list'),
-      name: 'list',
-      meta: { title: '图书列表', icon: 'list', roles: ['admin'] }
-    }, {
-      path: '/book/create',
-      component: () => import('@/views/book/create'),
-      name: 'book',
-      meta: { title: '添加图书', icon: 'edit', roles: ['admin'] }
-    }] },
+    meta: { title: '电子书管理', icon: 'el-icon-notebook-1' },
+    children:[{
+      path:'list',
+      name:'BookList',
+      component: () => import('@/views/book/bookList'),
+      meta: { title: '电子书列表', icon: 'el-icon-notebook-2' }
+    },{
+      path:'edit',
+      name:'BookEdit',
+      component: () => import('@/views/book/bookEdit'),
+      hidden:true,
+      meta: { title: '编辑电子书', icon: 'edit', activeMenu:'/book/list' }
+    },{
+      path:'create',
+      name:'BookCreate',
+      component: () => import('@/views/book/bookCreate'),
+      meta: { title: '新增电子书', icon: 'el-icon-document-add' }
+    }]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
