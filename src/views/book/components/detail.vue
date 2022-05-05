@@ -140,7 +140,7 @@
 import Sticky from "@/components/Sticky";
 import BookUpload from "@/components/Upload/BookUpload";
 import MDinput from "@/components/MDinput";
-import { createBook, updateBook } from "@/api/book";
+import { createBook, updateBook, getBook } from "@/api/book";
 
 const defaultForm = {
   author: "",
@@ -178,6 +178,7 @@ export default {
       type: Boolean,
     },
   },
+
   data() {
     const handleValidate = (rule, value, callback) => {
       if(value === ''){
@@ -201,7 +202,26 @@ export default {
       },
     };
   },
+
+  created(){
+    if(this.isEdit){
+      const { fileName } = this.$route.params;
+      this.getBookData(fileName);
+    }
+  },
+
   methods: {
+    getBookData(fileName){
+      getBook(fileName)
+        .then(res => {
+          const { book } = res.data;
+          console.log(book);
+          this.setBookData(book);
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     contentsTreeClick(data) {
       if (data.text) {
         window.open(data.text);
@@ -256,18 +276,29 @@ export default {
     removeBoook() {
       this.bookForm = Object.assign({},defaultForm);
       this.contentTree = [];
+      this.$refs.bookForm.resetFields();
     },
     submitBookForm(){
-      this.$refs.bookForm.validate((valid,field) => {
+      this.$refs.bookForm.validate(async (valid,field) => {
         if (valid) {
           const book = {...this.bookForm};
-          delete book.contents;
           delete book.contentTree;
+          let result
           if(this.isEdit){
-            updateBook(book);
-          }else{
-            createBook(book);
+            result = await updateBook(book);
+          } else {
+            result = await createBook(book);
           }
+          const { code, msg } = result;
+          if(code === 0){
+              this.$notify({
+                title: '操作成功',
+                type: 'success',
+                message: msg,
+                duration: 2000,
+              })
+          }
+          this.removeBoook(); 
         } else {
           const message = field[Object.keys(field)[0]][0].message;
           this.$message({message, type:'error'});

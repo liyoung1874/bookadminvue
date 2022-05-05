@@ -15,3 +15,11 @@ export const updateBook = (data) => {
     data
   })
 }
+
+export const getBook = (fileName) => {
+  return request({
+    url:'/book/get',
+    method:'get',
+    params: { fileName },
+  })
+}

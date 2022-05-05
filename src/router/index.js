@@ -66,7 +66,7 @@ export const constantRoutes = [
       component: () => import('@/views/book/bookList'),
       meta: { title: '电子书列表', icon: 'el-icon-notebook-2' }
     },{
-      path:'edit',
+      path:'edit/:fileName',
       name:'BookEdit',
       component: () => import('@/views/book/bookEdit'),
       hidden:true,
