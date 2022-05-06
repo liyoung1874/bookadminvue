@@ -23,3 +23,10 @@ export const getBook = (fileName) => {
     params: { fileName },
   })
 }
+
+export const getCategory = () => {
+  return request({
+    url:'/book/category',
+    method:'get'
+  })
+}
