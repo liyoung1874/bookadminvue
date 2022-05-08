@@ -30,3 +30,11 @@ export const getCategory = () => {
     method:'get'
   })
 }
+
+export const listBook = (query) => {
+  return request({
+    url:'/book/list',
+    method: 'post',
+    params: query,
+  })
+}
