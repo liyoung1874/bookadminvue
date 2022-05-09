@@ -7,6 +7,7 @@ bookadminnode 是一个基于 node.js 的 epub 图书管理后台的后端项目
 # 安装
 
 ` git clone https://github.com/Pepper1874/bookadminvue.git `
+
 ` npm i `
 
 
@@ -21,7 +22,7 @@ bookadminnode 是一个基于 node.js 的 epub 图书管理后台的后端项目
 
 # 启动
 
-## 后端
+### 后端
 `node app.js`
-## 前端
+### 前端
 `npm run dev`
