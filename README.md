@@ -6,11 +6,19 @@ bookadminnode 是一个基于 node.js 的 epub 图书管理后台的后端项目
 
 # 安装
 
+### 前端
 ` git clone https://github.com/Pepper1874/bookadminvue.git `
+
+` cd bookadminvue `
 
 ` npm i `
 
+### 后端
+` https://github.com/Pepper1874/bookadminnode.git `
 
+` cd bookadminnode `
+
+` npm i `
 # 配置服务端
 
 使用 nginx，需启动 nginx，并按照 constant.js 文件的常量配置对应的存储路径，或者是替换 nginx 配置文件的路径
