@@ -1,8 +1,6 @@
-# bookadminvue
+# 项目简介
 
-bookadminvue 是一个基于 Vue-element-admin 的 epub 图书管理后台的前端项目，主要包含用户登录，用户token鉴权，epub文件自动解析，电子书列表，电子书新增，电子书编辑等
-
-bookadminnode 是一个基于 node.js 的 epub 图书管理后台的后端项目，主要包含用户登录，用户token鉴权，epub文件自动解析，电子书列表，电子书新增，电子书编辑等
+此项目是一个前后端分离，前后端语言都使用 js 构建的一个 epub 图书管理项目。其中前端基于 Vue-element-admin 二次开发，后端基于 express；主要功能包含用户登录，用户token鉴权，epub文件自动解析，电子书列表，电子书新增，电子书编辑等
 
 # 安装
 
