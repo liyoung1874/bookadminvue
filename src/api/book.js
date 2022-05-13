@@ -38,3 +38,11 @@ export const listBook = (query) => {
     params: query,
   })
 }
+
+export const deleteBook = (fileName) => {
+  return request({
+    url:'/book/delete',
+    method: 'get',
+    params: { fileName },
+  })
+}

@@ -79,6 +79,14 @@
           >
             编辑
           </el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            @click="handleDelete(row)"
+          >
+            删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -97,7 +105,7 @@
 </template>
 
 <script>
-import { getCategory, listBook } from "@/api/book";
+import { getCategory, listBook, deleteBook } from "@/api/book";
 export default {
   name: "BookList",
   data() {
@@ -184,6 +192,32 @@ export default {
     handleEdit(row) {
       this.$router.push(`/book/edit/${row.fileName}`);
     },
+    handleDelete(row){
+      this.$confirm('此操作将永久删除电子书，是否继续？', '提示', {
+        confirButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        deleteBook(row.fileName)
+          .then((res) => {
+            this.$notify({
+              title: '删除成功',
+              type: 'success',
+              message: res.msg || '删除成功',
+              duration: 2000,
+            })
+            this.handleFilter();
+          })
+          .catch(err => {
+            this.$notify({
+              title: '删除失败',
+              type: 'error',
+              message: err.msg || '删除失败',
+              duration: 2000,
+            })
+          })
+      })
+    }
   },
 };
 </script>
